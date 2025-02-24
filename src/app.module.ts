@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -6,10 +6,18 @@ import { BlogModule } from './blog/blog.module';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
 import { SongsModule } from './songs/songs.module';
+import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
+import { SongsController } from './songs/songs.controller';
 
 @Module({
   imports: [UserModule, BlogModule, AuthModule, CommonModule, SongsModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // consumer.apply(LoggerMiddleware).forRoutes('songs') //option 1
+    // consumer.apply(LoggerMiddleware).forRoutes({path:"songs", method:RequestMethod.POST}) //option 2
+    consumer.apply(LoggerMiddleware).forRoutes(SongsController)
+  }
+}
