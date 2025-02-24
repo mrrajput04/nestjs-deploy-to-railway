@@ -7,7 +7,7 @@ GET  http://localhost:3000/songs
 GET  http://localhost:3000/songs/abvc
 
 ### Create a new song
-POST   http://localhost:3001/songs
+POST   http://localhost:3000/songs
 Content-Type: application/json
 
 {
