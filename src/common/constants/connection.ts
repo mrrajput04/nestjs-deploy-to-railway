@@ -1,7 +1,7 @@
 export const connection : Connection = {
-    CONNECTION_STRING:"CONNECTION_STRING",
-    DB:"DB",
-    DB_NAME:"DB_NAME"
+    CONNECTION_STRING:"MYSQL://23456/agn",
+    DB:"MYSQL",
+    DB_NAME:"TEST"
 }
 
 

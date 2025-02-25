@@ -8,11 +8,25 @@ import { CommonModule } from './common/common.module';
 import { SongsModule } from './songs/songs.module';
 import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
 import { SongsController } from './songs/songs.controller';
+import { DevConfigService } from './common/providers/DevConfigService';
+
+const devConfig = { port: 4000 }
+const prodConfig = { port: 3100 }
 
 @Module({
   imports: [UserModule, BlogModule, AuthModule, CommonModule, SongsModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    {
+      provide: DevConfigService,
+      useClass: DevConfigService,
+    }, {
+      provide: 'CONFIG',
+      useFactory: () => {
+        return process.env.NODE_ENV === "devlopement" ? devConfig : prodConfig;
+      }
+    }
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
