@@ -1,9 +1,15 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Inject, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Inject, Param, ParseIntPipe, Post, Put, Scope } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDTO } from './dto/create-songs-dto';
 import { Connection } from 'src/common/constants/connection';
+import path from 'path';
 
-@Controller('songs')
+@Controller('songs'
+    //     {
+    //     path:"songs",
+    //     scope:Scope.REQUEST
+    // }
+)
 export class SongsController {
     constructor(private songsService: SongsService,
         @Inject('CONNECTION')
@@ -20,18 +26,18 @@ export class SongsController {
         try {
             return this.songsService.findAll()
         } catch (e) {
-            throw new HttpException('server error',HttpStatus.INTERNAL_SERVER_ERROR,{
-                cause:e
+            throw new HttpException('server error', HttpStatus.INTERNAL_SERVER_ERROR, {
+                cause: e
             })
         }
     }
 
     @Get(':id')
     findOne(
-        @Param('id', new ParseIntPipe({errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE}))
+        @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }))
         id: number
     ) {
-        
+
         return `songs fetch successfully based on id ${typeof id}`
     }
 
