@@ -13,36 +13,42 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Song } from './songs/song.entity';
 import { User } from './users/user.entity';
 import { Playlist } from './playlists/playlist.entity';
+import { PlaylistModule } from './playlists/playlist.module';
+import { DataSource } from 'typeorm';
 
 const devConfig = { port: 4000 }
 const prodConfig = { port: 3100 }
 
 @Module({
-  imports: [ TypeOrmModule.forRoot({
-    type:"postgres",
-    host:"localhost",
-    database:"spotify-clone",
-    port:5432,
-    username:"postgres",
-    password:"root",
-    entities:[Song, User, Playlist],
+  imports: [TypeOrmModule.forRoot({
+    type: "postgres",
+    host: "localhost",
+    database: "spotify-clone",
+    port: 5432,
+    username: "postgres",
+    password: "root",
+    entities: [Song, User, Playlist],
     synchronize: true
   }),
-    UserModule, BlogModule, AuthModule, CommonModule, SongsModule],
+    SongsModule, PlaylistModule
+  ],
   controllers: [AppController],
   providers: [AppService]
-    // {
-    //   provide: DevConfigService,
-    //   useClass: DevConfigService,
-    // }, {
-    //   provide: 'CONFIG',
-    //   useFactory: () => {
-    //     return process.env.NODE_ENV === "devlopement" ? devConfig : prodConfig;
-    //   }
-    // }
+  // {
+  //   provide: DevConfigService,
+  //   useClass: DevConfigService,
+  // }, {
+  //   provide: 'CONFIG',
+  //   useFactory: () => {
+  //     return process.env.NODE_ENV === "devlopement" ? devConfig : prodConfig;
+  //   }
+  // }
   // ],
 })
 export class AppModule implements NestModule {
+  constructor(private datasource: DataSource) {
+    console.log("db connection successfully")
+  }
   configure(consumer: MiddlewareConsumer) {
     // consumer.apply(LoggerMiddleware).forRoutes('songs') //option 1
     // consumer.apply(LoggerMiddleware).forRoutes({path:"songs", method:RequestMethod.POST}) //option 2

@@ -22,3 +22,15 @@ PUT   http://localhost:3000/songs/1
 
 ### Delete a existing song based on id
 DELETE   http://localhost:3000/songs/1
+
+### create new playlist
+POST http://localhost:3001/playlists
+Content-Type: application/json
+
+{
+    "name":"feel good now",
+    "songs":[
+        6
+    ],
+    "user":2
+}
