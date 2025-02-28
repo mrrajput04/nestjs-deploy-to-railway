@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Inject, Param, ParseIntPipe, Post, Put, Scope } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDTO } from './dto/create-songs-dto';
-import { Connection } from 'src/common/constants/connection';
-import path from 'path';
+import { Song } from './song.entity';
+import { DeleteResult } from 'typeorm';
 
 @Controller('songs'
     //     {
@@ -12,13 +12,13 @@ import path from 'path';
 )
 export class SongsController {
     constructor(private songsService: SongsService,
-        @Inject('CONNECTION')
-        private connection: Connection
+        // @Inject('CONNECTION')
+        // private connection: Connection
     ) { }
 
     @Post()
-    create(@Body() createSongDTO: CreateSongDTO) {
-        return this.songsService.create("animal by martin")
+    create(@Body() createSongDTO: CreateSongDTO):Promise<Song> {
+        return this.songsService.create(createSongDTO)
     }
 
     @Get()
@@ -47,8 +47,8 @@ export class SongsController {
     }
 
     @Delete(':id')
-    dekete() {
-        return 'delete song successfully based on id'
+    delete(@Param('id',ParseIntPipe) id:number):Promise<DeleteResult> {
+        return this.songsService.delete(id)
     }
 
 }

@@ -11,10 +11,13 @@ POST   http://localhost:3000/songs
 Content-Type: application/json
 
 {
-    "title":"Tum hi ho",
-    "artists":["arijit"],
-    "releaseDate":"2024-03-10",
-    "duration":"03:10"
+    "title": "Not Like Us 3",
+    "artists": [
+        "Kendrick Lamar"
+    ],
+    "releasedDate":"2024-05-04",
+    "duration": "03:10",
+    "lyrics":"You better not ever go to cell block one To any bitch that talk to him and they in love Just make sure you hide your lil' sister from him They tell me Chubbs the only one that get your hand-me-downs And Party at the party playin' with his nose now And Baka got a weird case"
 }
 
 ### Update a existing song based on id
@@ -24,7 +27,7 @@ PUT   http://localhost:3000/songs/1
 DELETE   http://localhost:3000/songs/1
 
 ### create new playlist
-POST http://localhost:3001/playlists
+POST http://localhost:3000/playlists
 Content-Type: application/json
 
 {
