@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Inject, Param, ParseIntPipe, Post, Put, Scope } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, HttpException, HttpStatus, Inject, Param, ParseIntPipe, Post, Put, Query, Scope } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDTO } from './dto/create-songs-dto';
 import { Song } from './song.entity';
 import { DeleteResult } from 'typeorm';
+import { UpdateSongDTO } from './dto/update-songs-dto';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Controller('songs'
     //     {
@@ -17,11 +19,11 @@ export class SongsController {
     ) { }
 
     @Post()
-    create(@Body() createSongDTO: CreateSongDTO):Promise<Song> {
+    create(@Body() createSongDTO: CreateSongDTO): Promise<Song> {
         return this.songsService.create(createSongDTO)
     }
 
-    @Get()
+    @Get('all')
     findAll() {
         try {
             return this.songsService.findAll()
@@ -34,21 +36,31 @@ export class SongsController {
 
     @Get(':id')
     findOne(
-        @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }))
+        @Param('id', ParseIntPipe)
         id: number
-    ) {
+    ): Promise<Song> {
 
-        return `songs fetch successfully based on id ${typeof id}`
+        return this.songsService.findOne(id)
     }
 
     @Put(':id')
-    update() {
-        return 'update song successfully based on id'
+    update(@Param('id', ParseIntPipe) id: number,
+        @Body() updatesongDto: UpdateSongDTO) {
+        return this.songsService.update(id, updatesongDto)
     }
 
     @Delete(':id')
-    delete(@Param('id',ParseIntPipe) id:number):Promise<DeleteResult> {
+    delete(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
         return this.songsService.delete(id)
+    }
+
+    @Get('')
+    paginate(
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+        @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+   ):Promise<Pagination<Song>> {
+    limit = limit > 100 ? 100 : limit;
+        return this.songsService.paginate({page, limit})
     }
 
 }
