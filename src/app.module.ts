@@ -18,13 +18,14 @@ import { DataSource } from 'typeorm';
 import { Artist } from './artists/artist.entity';
 import { ArtistsModule } from './artists/artists.module';
 import { dataSourceOptions } from '../db/data-source';
+import { SeedModule } from './seed/seed.module';
 
 const devConfig = { port: 4000 }
 const prodConfig = { port: 3100 }
 
 @Module({
   imports: [TypeOrmModule.forRoot(dataSourceOptions),
-    SongsModule, PlaylistModule, AuthModule, UserModule, ArtistsModule
+    SongsModule, PlaylistModule, AuthModule, UserModule, ArtistsModule, SeedModule
   ],
   controllers: [AppController],
   providers: [AppService]
