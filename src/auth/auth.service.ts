@@ -5,8 +5,9 @@ import * as bcrypt from "bcrypt"
 import * as speakeasy from "speakeasy"
 import { JwtService } from "@nestjs/jwt";
 import { ArtistsService } from "src/artists/artists.service";
-import {  Enable2FAType, PayloadType } from "./types";
+import { Enable2FAType, PayloadType } from "./types";
 import { UpdateResult } from "typeorm";
+import { User } from "src/users/user.entity";
 
 
 @Injectable()
@@ -28,12 +29,12 @@ export class AuthSerivce {
             if (artist) {
                 payload.artistId = artist.id
             }
-            if(user.enable2FA && user.twoFASecret){
+            if (user.enable2FA && user.twoFASecret) {
                 return {
                     validate2FA: 'http://localhost:3000/auth/validate-2fa',
                     message:
-                      'Please sends the one time password/token from your Google Authenticator App',
-                  };
+                        'Please sends the one time password/token from your Google Authenticator App',
+                };
             }
             return { accessToken: await this.jwtService.sign(payload) }
         } else {
@@ -78,8 +79,12 @@ export class AuthSerivce {
         }
     }
 
-    async disabled2FA(userId:number):Promise<UpdateResult>{
-       return await this.userService.disabled2FA(userId)
+    async disabled2FA(userId: number): Promise<UpdateResult> {
+        return await this.userService.disabled2FA(userId)
+    }
+
+    validateApikey(apiKey: string): Promise<User> {
+        return this.userService.validateApiKey(apiKey)
     }
 
 }

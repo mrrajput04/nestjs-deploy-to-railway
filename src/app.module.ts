@@ -25,7 +25,7 @@ const prodConfig = { port: 3100 }
   imports: [TypeOrmModule.forRoot({
     type: "postgres",
     host: "localhost",
-    database: "spotify-clone",
+    database: "spotify-clone-01",
     port: 5432,
     username: "postgres",
     password: "root",

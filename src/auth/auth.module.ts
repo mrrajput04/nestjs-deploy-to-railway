@@ -7,6 +7,7 @@ import { authConstant } from './auth.constant';
 import { JwtStrategy } from './jwt-strategy';
 import { ArtistsService } from 'src/artists/artists.service';
 import { ArtistsModule } from 'src/artists/artists.module';
+import { ApiKeyStrategy } from './api-key-strategy';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { ArtistsModule } from 'src/artists/artists.module';
 
     ArtistsModule
   ],
-  providers: [AuthSerivce, JwtStrategy],
+  providers: [AuthSerivce, JwtStrategy, ApiKeyStrategy],
   controllers: [AuthController],
   exports: [AuthSerivce],
 })
