@@ -76,3 +76,22 @@ Content-Type: application/json
     "password":"1234567890"
 }
 
+### enable 2fa 
+GET http://localhost:3001/auth/enable-2fa
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3Rpbmd0QGdtYWlsLmNvbSIsInVzZXJJZCI6OSwiYXJ0aXN0SWQiOjQsImlhdCI6MTc0MTE3MDMwMSwiZXhwIjoxNzQxMjU2NzAxfQ.MY859mKO6qvV06UqImOccOMdEMBk5KUNHzy6geLgnNg
+
+### verify 2fa otp
+POST http://localhost:3001/auth/validate-2FA
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3Rpbmd0QGdtYWlsLmNvbSIsInVzZXJJZCI6OSwiYXJ0aXN0SWQiOjQsImlhdCI6MTc0MTE3MDMwMSwiZXhwIjoxNzQxMjU2NzAxfQ.MY859mKO6qvV06UqImOccOMdEMBk5KUNHzy6geLgnNg
+
+{
+    "token":"203627"
+
+}
+
+### disble 2fa 
+GET http://localhost:3001/auth/disable-2fa
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3Rpbmd0QGdtYWlsLmNvbSIsInVzZXJJZCI6OSwiYXJ0aXN0SWQiOjQsImlhdCI6MTc0MTE3MDMwMSwiZXhwIjoxNzQxMjU2NzAxfQ.MY859mKO6qvV06UqImOccOMdEMBk5KUNHzy6geLgnNg
