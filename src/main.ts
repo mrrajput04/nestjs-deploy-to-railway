@@ -18,6 +18,6 @@ async function bootstrap() {
   // const seedService = app.get(SeedService)
   // await seedService.seed();
   const configService = new ConfigService()
-  await app.listen(configService.get<number>('port'));
+  await app.listen(3001);
 }
 bootstrap();

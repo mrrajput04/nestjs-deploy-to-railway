@@ -21,6 +21,8 @@ import { typeOrmAsyncConfig } from '../db/data-source';
 import { SeedModule } from './seed/seed.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 const devConfig = { port: 4000 }
 const prodConfig = { port: 3100 }
@@ -32,6 +34,14 @@ const prodConfig = { port: 3100 }
       isGlobal: true,
       load: [configuration],
     }),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 10,
+        },
+      ],
+    }),
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     SongsModule,
     PlaylistModule,
@@ -41,7 +51,13 @@ const prodConfig = { port: 3100 }
     SeedModule,
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
+
+  ]
   // {
   //   provide: DevConfigService,
   //   useClass: DevConfigService,

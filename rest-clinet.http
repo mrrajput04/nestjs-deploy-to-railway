@@ -1,7 +1,7 @@
 GET  http://localhost:3000
 
 ### Get the list of all songs
-GET  http://localhost:3000/songs
+GET  http://localhost:3001/songs
 
 ### Get the song based on id
 GET  http://localhost:3000/songs/abvc
@@ -103,4 +103,4 @@ Content-Type: application/json
 Authorization: Bearer 39c1e4de-d34a-4d3b-a349-e50d2bc8dbd6
 
 ### get env variable
-GET http://localhost:3003/auth/test
+GET http://localhost:3001/auth/test
