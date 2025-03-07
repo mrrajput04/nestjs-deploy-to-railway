@@ -17,15 +17,28 @@ import { PlaylistModule } from './playlists/playlist.module';
 import { DataSource } from 'typeorm';
 import { Artist } from './artists/artist.entity';
 import { ArtistsModule } from './artists/artists.module';
-import { dataSourceOptions } from '../db/data-source';
+import { typeOrmAsyncConfig } from '../db/data-source';
 import { SeedModule } from './seed/seed.module';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './config/configuration';
 
 const devConfig = { port: 4000 }
 const prodConfig = { port: 3100 }
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dataSourceOptions),
-    SongsModule, PlaylistModule, AuthModule, UserModule, ArtistsModule, SeedModule
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: ['.env.development', '.env.production'],
+      isGlobal: true,
+      load: [configuration],
+    }),
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
+    SongsModule,
+    PlaylistModule,
+    AuthModule,
+    UserModule,
+    ArtistsModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService]

@@ -7,7 +7,6 @@ export class SeedService {
     constructor(private readonly connection: DataSource) { }
 
     async seed(): Promise<void> {
-        console.log("asglalgmlm")
         const queryRunner = this.connection.createQueryRunner();
 
         queryRunner.connect();

@@ -8,14 +8,16 @@ import { ArtistsService } from "src/artists/artists.service";
 import { Enable2FAType, PayloadType } from "./types";
 import { UpdateResult } from "typeorm";
 import { User } from "src/users/user.entity";
+import { ConfigService } from "@nestjs/config";
 
 
 @Injectable()
-export class AuthSerivce {
+export class AuthService {
     constructor(
         private userService: UserService,
         private jwtService: JwtService,
-        private artistService: ArtistsService
+        private artistService: ArtistsService,
+        private configService: ConfigService,
     ) { }
 
     async findOne(loginDto: LoginDTO): Promise<{ accessToken: string } | { validate2FA: string; message: string }> {
@@ -86,5 +88,10 @@ export class AuthSerivce {
     validateApikey(apiKey: string): Promise<User> {
         return this.userService.validateApiKey(apiKey)
     }
+
+    loadEnv(): Promise<number> {
+        return this.configService.get('port')
+    }
+
 
 }

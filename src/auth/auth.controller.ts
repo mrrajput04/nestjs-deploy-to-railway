@@ -3,7 +3,7 @@ import { UserService } from "../users/user.service";
 import { CreateUserDTO } from "../users/dto/create-user-dto";
 import { User } from "../users/user.entity";
 import { LoginDTO } from "./dto/login.dto";
-import { AuthSerivce } from "./auth.service";
+import { AuthService } from "./auth.service";
 import { Enable2FAType, ValidateTokenType } from "./types";
 import { JwtAuthGuard } from "./auth.guard";
 import { UpdateResult } from "typeorm";
@@ -12,7 +12,7 @@ import { UpdateResult } from "typeorm";
 
 export class AuthController {
     constructor(
-        private authService: AuthSerivce,
+        private authService: AuthService,
         private userService: UserService) { }
     @Post()
     create(@Body() createUserDTO: CreateUserDTO): Promise<User> {
@@ -42,4 +42,10 @@ export class AuthController {
     disable2FA(@Req() request:any): Promise<UpdateResult> {
         return this.authService.disabled2FA(request.user.userId)
     }
+
+    @Get('test')
+    testEnv():Promise<number>{
+        return this.authService.loadEnv()
+    }
+
 }
