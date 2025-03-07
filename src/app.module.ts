@@ -23,6 +23,7 @@ import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { validate } from 'env-validation';
 
 const devConfig = { port: 4000 }
 const prodConfig = { port: 3100 }
@@ -33,6 +34,7 @@ const prodConfig = { port: 3100 }
       envFilePath: ['.env.development', '.env.production'],
       isGlobal: true,
       load: [configuration],
+      validate: validate
     }),
     ThrottlerModule.forRoot({
       throttlers: [
