@@ -3,7 +3,7 @@ import { PlaylistService } from "./playlist.service";
 import { CreatePlayListDto } from "./dto/create-playlist.dto";
 import { Playlist } from "./playlist.entity";
 
-@Controller('re')
+@Controller('playlist')
 export class PlaylistController {
     constructor(private playlistService:PlaylistService){}
 

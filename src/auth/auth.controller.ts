@@ -7,6 +7,7 @@ import { AuthService } from "./auth.service";
 import { Enable2FAType, ValidateTokenType } from "./types";
 import { JwtAuthGuard } from "./auth.guard";
 import { UpdateResult } from "typeorm";
+import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 
 @Controller('auth')
 
@@ -14,11 +15,22 @@ export class AuthController {
     constructor(
         private authService: AuthService,
         private userService: UserService) { }
-    @Post()
+
+    @Post('signup')
+    @ApiOperation({summary:"register new user"})
+    @ApiResponse({
+        status: 201,
+        description:"It will return the user in the response"
+    })
     create(@Body() createUserDTO: CreateUserDTO): Promise<User> {
         return this.userService.create(createUserDTO)
     }
 
+    @ApiOperation({summary:"login the user"})
+    @ApiResponse({
+        status: 200,
+        description:"It will return the token in the response and you will be asked for eabling the 2FA"
+    })
     @Post('login')
     async findOne(@Body() loginDto: LoginDTO) {
         const user = await this.authService.findOne(loginDto)
