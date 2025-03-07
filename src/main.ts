@@ -4,6 +4,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { SeedService } from './seed/seed.service';
 import { ConfigService } from '@nestjs/config';
 
+declare const module: any;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors()
@@ -19,5 +21,10 @@ async function bootstrap() {
   // await seedService.seed();
   const configService = new ConfigService()
   await app.listen(3001);
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 }
 bootstrap();
