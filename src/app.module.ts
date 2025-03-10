@@ -31,7 +31,7 @@ const prodConfig = { port: 3100 }
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['.env.development', '.env.production'],
+      envFilePath: [`${process.cwd()}/.env.${process.env.NODE_ENV}`],
       isGlobal: true,
       load: [configuration],
       validate: validate
@@ -71,13 +71,15 @@ const prodConfig = { port: 3100 }
   // }
   // ],
 })
-export class AppModule implements NestModule {
-  constructor(private datasource: DataSource) {
-    console.log("db connection successfully")
-  }
-  configure(consumer: MiddlewareConsumer) {
-    // consumer.apply(LoggerMiddleware).forRoutes('songs') //option 1
-    // consumer.apply(LoggerMiddleware).forRoutes({path:"songs", method:RequestMethod.POST}) //option 2
-    consumer.apply(LoggerMiddleware).forRoutes(SongsController)
-  }
+export class AppModule
+// implements NestModule
+{
+  // constructor(private datasource: DataSource) {
+  //   console.log("db connection successfully")
+  // }
+  // configure(consumer: MiddlewareConsumer) {
+  //   // consumer.apply(LoggerMiddleware).forRoutes('songs') //option 1
+  //   // consumer.apply(LoggerMiddleware).forRoutes({path:"songs", method:RequestMethod.POST}) //option 2
+  //   consumer.apply(LoggerMiddleware).forRoutes(SongsController)
+  // }
 }

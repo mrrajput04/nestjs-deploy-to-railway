@@ -1,5 +1,5 @@
 export default () => ({
-
+    NODE_ENV: process.env.NODE_ENV,
     type: process.env.TYPE,
     dbHost: process.env.DB_HOST,
     dbName: process.env.DATABASE,
